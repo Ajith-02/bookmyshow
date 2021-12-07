@@ -1,6 +1,15 @@
-const express = require("express");
+//const express = require("express");
+import express from "express";
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv"; 
+dotenv.config();
+console.log(process.env);
+
 const app = express();
 const PORT = 9000;
+
+app.use(express.json())
+
 
 const movies = [
     {
@@ -70,6 +79,26 @@ const movies = [
     },
   ];
 
+
+ 
+  const MOVIE_URL = process.env.MOVIE_URL;
+
+  async function createConnection(){
+      const client = new MongoClient(MOVIE_URL);
+      await client.connect(); //promise
+      console.log("Mongodb Connected");
+      return client;
+    }
+    export const client = await createConnection()
+  
+    app.post("/movies", async (request, response) => {
+        const data = request.body;
+        const result = await client
+        .db("moviesbook")
+        .collection("moviesbook")
+        .insertMany(data);
+        response.send(data);
+    });
 
 app.get("/movies", (request, response)=>{
     response.send(movies);
