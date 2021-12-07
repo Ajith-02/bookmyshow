@@ -1,12 +1,16 @@
 //const express = require("express");
 import express from "express";
 import { MongoClient } from "mongodb";
-import dotenv from "dotenv"; 
+import dotenv from "dotenv";
+
+
+
+
 dotenv.config();
 console.log(process.env);
 
 const app = express();
-const PORT = 9000;
+const PORT = process.env.PORT;
 
 app.use(express.json())
 
@@ -84,7 +88,7 @@ const movies = [
   const MOVIE_URL = process.env.MOVIE_URL;
 
   async function createConnection(){
-      const client = new MongoClient(MOVIE_URL);
+      const client = new  MongoClient(MOVIE_URL);
       await client.connect(); //promise
       console.log("Mongodb Connected");
       return client;
