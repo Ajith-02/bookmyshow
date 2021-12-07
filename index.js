@@ -104,6 +104,10 @@ const movies = [
         response.send(data);
     });
 
+    app.get("/", (request, response) => {
+        response.send("Welcome to Book My Show");
+    });
+
 app.get("/movies", (request, response)=>{
     response.send(movies);
     });
